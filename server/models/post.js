@@ -15,17 +15,17 @@ const PostSchema = new mongoose.Schema({
     type: Number,
     default: -2,
   },
-  fileUre: {
+  fileUrl: {
     type: String,
-    default: "http://sourec.unsplash.com/random/301x201",
-  },
-  category: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "category",
+    default: "https://source.unsplash.com/random/301x201",
   },
   date: {
     type: String,
     default: moment().format("YYYY-MM-DD hh:mm:ss"),
+  },
+  category: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "category",
   },
   comments: [
     {
@@ -33,7 +33,7 @@ const PostSchema = new mongoose.Schema({
       ref: "comment",
     },
   ],
-  createor: {
+  creator: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "user",
   },

@@ -1,5 +1,5 @@
-import moment from "moment";
 import mongoose from "mongoose";
+import moment from "moment";
 
 // Create Schema
 const UserSchema = new mongoose.Schema({
@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["MainJuin", "subJuin", "User"],
+    enum: ["MainJuin", "SubJuin", "User"],
     default: "User",
   },
   register_date: {
@@ -40,7 +40,7 @@ const UserSchema = new mongoose.Schema({
   posts: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "post",
+      ref: "posts",
     },
   ],
 });
