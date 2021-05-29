@@ -1,8 +1,8 @@
 import express from "express";
-import auth from "../../middleware/auth";
 
 // Model
 import Post from "../../models/post";
+import auth from "../../middleware/auth";
 
 const router = express.Router();
 

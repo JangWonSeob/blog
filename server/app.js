@@ -29,10 +29,9 @@ mongoose
     useUnifiedTopology: true,
     useCreateIndex: true,
   })
-  .then(() => console.log("MongoDB connecting Success!!"))
+  .then(() => console.log("MongoDB connect Success!!"))
   .catch((e) => console.log(e));
 
-// Use routes
 app.get("/");
 app.use("/api/post", postRoutes);
 app.use("/api/user", userRoutes);
