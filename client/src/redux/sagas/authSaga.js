@@ -63,7 +63,7 @@ function* logout(action) {
     console.log(e);
   }
 }
-function* watchlogout() {
+function* watchLogout() {
   yield takeEvery(LOGOUT_REQUEST, logout);
 }
 
@@ -90,7 +90,7 @@ function* registerUser(action) {
     });
   }
 }
-function* watchregisterUser() {
+function* watchRegisterUser() {
   yield takeEvery(REGISTER_REQUEST, registerUser);
 }
 
@@ -107,7 +107,7 @@ function* clearError() {
     });
   }
 }
-function* watchclearError() {
+function* watchClearError() {
   yield takeEvery(CLEAR_ERROR_REQUEST, clearError);
 }
 
@@ -149,9 +149,9 @@ function* watchuserLoading() {
 export default function* authSage() {
   yield all([
     fork(watchLoginUser),
-    fork(watchlogout),
+    fork(watchLogout),
     fork(watchuserLoading),
-    fork(watchregisterUser),
-    fork(watchclearError),
+    fork(watchRegisterUser),
+    fork(watchClearError),
   ]);
 }
