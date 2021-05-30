@@ -5,6 +5,15 @@ import {
   LOGIN_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
+  LOGOUT_FAILURE,
+  LOGOUT_REQUEST,
+  LOGOUT_SUCCESS,
+  REGISTER_FAILURE,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  USER_LOADING_FAILURE,
+  USER_LOADING_REQUEST,
+  USER_LOADING_SUCCESS,
 } from "../types";
 
 const initialState = {
@@ -19,14 +28,17 @@ const initialState = {
   successMsg: "",
 };
 
-const authReduce = (state = initialState, action) => {
+const authReducer = (state = initialState, action) => {
   switch (action.type) {
+    case REGISTER_REQUEST:
     case LOGIN_REQUEST:
+    case LOGOUT_REQUEST:
       return {
         ...state,
         errorMsg: "",
         isLoading: true,
       };
+    case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem("token", action.payload.token);
       return {
@@ -38,7 +50,20 @@ const authReduce = (state = initialState, action) => {
         userRolo: action.payload.user.role,
         errorMsg: "",
       };
+    case LOGOUT_SUCCESS:
+      localStorage.removeItem("token");
+      return {
+        token: null,
+        user: null,
+        userId: null,
+        isAuthenticated: false,
+        isLoading: false,
+        userRolo: null,
+        errorMsg: "",
+      };
+    case REGISTER_FAILURE:
     case LOGIN_FAILURE:
+    case LOGOUT_FAILURE:
       localStorage.removeItem("token");
       return {
         ...state,
@@ -48,7 +73,7 @@ const authReduce = (state = initialState, action) => {
         userId: null,
         isAuthenticated: false,
         isLoading: false,
-        userRolo: "false",
+        userRolo: null,
         errorMsg: action.payload.data.msg,
       };
     case CLEAR_ERROR_REQUEST:
@@ -66,9 +91,32 @@ const authReduce = (state = initialState, action) => {
         ...state,
         errorMsg: null,
       };
+    case USER_LOADING_REQUEST:
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case USER_LOADING_SUCCESS:
+      return {
+        ...state,
+        isAuthenticated: true,
+        isLoading: false,
+        user: action.payload,
+        userId: action.payload._id,
+        userName: action.payload.name,
+        userRole: action.payload.role,
+      };
+    case USER_LOADING_FAILURE:
+      return {
+        ...state,
+        user: null,
+        isAuthenticated: false,
+        isLoading: false,
+        userRole: "",
+      };
     default:
       return state;
   }
 };
 
-export default authReduce;
+export default authReducer;
