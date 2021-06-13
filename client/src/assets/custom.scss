@@ -2,6 +2,7 @@
   background: #343a40;
   color: #fff;
 }
+
 #page-header {
   height: 200px;
   background: url("../assets/img/background.jpg");
@@ -11,11 +12,34 @@
   border-bottom: 1px #eee solid;
   padding-top: 60px;
 }
+
 #main-body {
   min-width: 90vh;
 }
+
 .card-img-top {
   width: 100%;
   height: 20rem;
   object-fit: cover;
 }
+
+// CkEditor5 Setting
+.ck {
+  .ck-editor {
+    min-width: 100%;
+  }
+}
+
+.ck-editor__editable {
+  max-height: 80rem;
+  min-height: 20rem;
+  min-width: 100rem;
+}
+
+.ck-editor__editable_inline {
+  max-height: 80rem;
+  min-height: 20rem;
+  min-width: 100rem;
+}
+// html {  width: 100vw;  overflow-x: hidden;  }
+// Add Post에서 글을 쓸 때 화면이 흔들릴 때 사용
