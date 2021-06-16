@@ -1,20 +1,24 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {} from "react-helmet";
+import { Helmet } from "react-helmet";
 import {
   POST_DETAIL_LOADING_REQUEST,
-  POST_DETAIL_LOADING_SUCCESS,
-  POST_DETAIL_LOADING_FAILURE,
   POST_DELETE_REQUEST,
-  POST_DELETE_SUCCESS,
-  POST_DELETE_FAILURE,
   USER_LOADING_REQUEST,
 } from "../../redux/types";
-import { Col, Row } from "reactstrap";
+import { Col, Row, Button } from "reactstrap";
 import CKEditor from "@ckeditor/ckeditor5-react";
 import { Fragment } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "bootstrap";
+import { GrowingSpinner } from "../../components/spinner/Spinner";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faPencilAlt,
+  faCommentDots,
+  faMouse,
+} from "@fortawesome/free-solid-svg-icons";
+import BallonEditor from "@ckeditor/ckeditor5-editor-balloon/src/ballooneditor";
+import { editorConfiguration } from "../../components/editor/EditorConfig";
 
 const PostDetail = (req) => {
   const dispatch = useDispatch();
@@ -32,7 +36,7 @@ const PostDetail = (req) => {
       type: USER_LOADING_REQUEST,
       payload: localStorage.getItem("token"),
     });
-  });
+  }, []);
 
   const onDeleteClick = () => {
     dispatch({
@@ -81,7 +85,63 @@ const PostDetail = (req) => {
     </Fragment>
   );
 
-  return <h1>PostDetail</h1>;
+  const Body = (
+    <>
+      {userId === creatorId ? EditButton : HomeButton}
+      <Row className="border-bottom border-top broder-priamry p-3 mb-3 d-flex justify-content-between">
+        {(() => {
+          if (postDetail && postDetail.creator) {
+            return (
+              <Fragment>
+                <div className="font-weight-bold text-big">
+                  <span className="mr-3">
+                    <Button color="info">
+                      {postDetail.categroy.categroyName}
+                    </Button>
+                  </span>
+                  {PostDetail.title}
+                </div>
+                <div className="align-self-end">{postDetail.creator.naem}</div>
+              </Fragment>
+            );
+          }
+        })()}
+      </Row>
+      {postDetail && postDetail.comments ? (
+        <Fragment>
+          <div className="d-flex justify-content-end align-items-baseline small">
+            <FontAwesomeIcon icon={faPencilAlt} />
+            &nbsp;
+            <span>{postDetail.date}</span>
+            &nbsp;&nbsp;
+            <FontAwesomeIcon icon={faCommentDots} />
+            &nbsp;
+            <span>{postDetail.comments.length}</span>
+            &nbsp;&nbsp;
+            <FontAwesomeIcon icon={faMouse} />
+            <span>{postDetail.views}</span>
+          </div>
+          <Row className="mb-3">
+            <CKEditor
+              editor={BallonEditor}
+              data={postDetail.contents}
+              config={editorConfiguration}
+              disabled="true"
+            />
+          </Row>
+        </Fragment>
+      ) : (
+        <h1>hi</h1>
+      )}
+    </>
+  );
+
+  return (
+    <div>
+      <Helmet title={`Post | ${title}`} />
+      {loading === true ? GrowingSpinner : Body}
+    </div>
+  );
 };
 
 export default PostDetail;
